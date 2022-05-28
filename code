@@ -1,0 +1,47 @@
+fire_security_alaram_with_controlling fan
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h> 
+char auth[] = "nlpO-0QLvQTStFag7ICZw2orN8dRJu7F";//Enter your Auth token
+char ssid[] = "********";//Enter your WIFI name
+char pass[] = "********";//Enter your WIFI password
+int val=0; 
+void setup() {
+  pinMode(D0, OUTPUT);
+  Blynk.begin(auth, ssid, pass);
+  Serial.begin(9600);
+  pinMode(D1,INPUT);
+  pinMode(D4,OUTPUT);
+  pinMode(D2,OUTPUT);
+  digitalWrite(D4,HIGH);
+  
+  Serial.begin(9600);
+}
+void loop() {
+  Blynk.run();
+  val = digitalRead(D1);
+  Serial.println(val);
+
+
+  
+while(val == 0 )
+{ 
+  digitalWrite(D2,HIGH);
+  delay(50);
+  digitalWrite(D2,LOW);
+  Serial.println("fire detected alert !!!!!!!");
+  Blynk.notify("fire dected send fire brigade!");
+  break;
+}
+if(val == 0)
+  {
+    digitalWrite(D4,LOW);
+    
+    Serial.println("fan 0n");
+  }
+else
+  {
+    digitalWrite(D4,HIGH);
+    Serial.println("fan 0ff");
+  }
+
+}
